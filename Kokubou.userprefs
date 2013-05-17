@@ -1,0 +1,14 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/ConnectSide.cs">
+    <Files>
+      <File FileName="../Documents/Git/Stickman/Assets/Scripts/Models/WalletManager.cs" Line="1" Column="1" />
+      <File FileName="Assets/SlingShot.cs" Line="5" Column="7" />
+      <File FileName="Assets/ConnectSide.cs" Line="1" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
