@@ -12,6 +12,11 @@ public static class VetorExtentions{
 	public static Vector2 ToVector2( this Vector3 v){
 		return new Vector2( v.x, v.y);
 	}
-	
+	public static Vector3 SetX( this Vector3 v, float x){
+		return new Vector3( x, v.y, v.z);
+	}
+	public static Vector3 Add( this Vector3 v, float x, float y, float z){
+		return new Vector3( v.x+x, v.y+y, v.z+z);
+	}
 	
 }
