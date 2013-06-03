@@ -6,12 +6,16 @@ public class StageObject : MonoBehaviour {
 	
 	void Awake(){
 		rigidbody.constraints = constraint();
-		if( isStatic())
-			rigidbody.useGravity = false;
+		rigidbody.useGravity = useGravity();
+		collider.isTrigger = isTrigger();
 	}
 	
-	protected virtual bool isStatic(){
+	protected virtual bool isTrigger(){
 		return true;
+	}
+	
+	protected virtual bool useGravity(){
+		return false;
 	}
 	
 	protected virtual RigidbodyConstraints constraint(){
@@ -30,5 +34,17 @@ public class StageObject : MonoBehaviour {
 	}
 	protected virtual void onCollisionEnter( Collision info){
 		Debug.Log( "onCollisionEnter "+info.gameObject.name);
+	}
+	void OnCollisionStay( Collision info){
+		onCollisionStay(info);
+	}
+	protected virtual void onCollisionStay( Collision info){
+		Debug.Log( "onCollisionStay "+info.gameObject.name);
+	}
+	void OnCollisionExit( Collision info){
+		onCollisionExit(info);
+	}
+	protected virtual void onCollisionExit( Collision info){
+		Debug.Log( "onCollisionExit "+info.gameObject.name);
 	}
 }
