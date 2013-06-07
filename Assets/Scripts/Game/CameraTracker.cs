@@ -32,7 +32,7 @@ public class CameraTracker : MonoBehaviour {
 		}
 	}
 	
-	void MoveTarget(Vector3 to)
+	public void Move(Vector3 to)
 	{
 		this.gameObject.transform.position = new Vector3(to.x, to.y, this.gameObject.transform.position.z);
 	}

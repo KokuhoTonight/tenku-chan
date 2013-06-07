@@ -7,22 +7,34 @@ public class StageObjectGenerator : MonoBehaviour, IObjserver {
 	[SerializeField] List<GameObject> objectPrefabs = new List<GameObject>();
 	List<GameObject> stageObjects = new List<GameObject>();
 	
-	
+	[SerializeField] string footstepKey = "plate";
+	[SerializeField] string goalKey = "goal_plate";
 	//TODO SEPARATE
 	[SerializeField] CameraTracker cameraTracker;
+	[SerializeField] int END_STEP_COUNT = 3;
+	int stepCount;
 	
-	// Use this for initialization
-	void Start () {
-		GenerateHigherStep();
+	
+	System.Action onGoalAction;
+	public void Initialize( System.Action onGoalAction){
+		stepCount = 0;
+		this.onGoalAction = onGoalAction;
+		foreach( var so in stageObjects){
+			so.active = false;
+		}
+		stageObjects.Clear();
+		cameraTracker.Move( Vector3.zero.Add( 0, 2.5f, 0));
+		GenerateHigherStep(footstepKey);
 	}
 	
-	public GameObject GenerateHigherStep(){
+	public GameObject GenerateHigherStep( string prefabKey){
+		stepCount++;
 		if( stageObjects.Count == 0)
-			return Generate( Vector3.zero);
+			return Generate( prefabKey, Vector3.zero);
 		else{
 			var highest = FindHighest();
 			var newPos = ThinkHigherPostion( highest.transform.position);
-			return Generate( newPos);
+			return Generate( prefabKey, newPos);
 		}
 	}
 	
@@ -30,15 +42,28 @@ public class StageObjectGenerator : MonoBehaviour, IObjserver {
 		Debug.Log( "notify "+cso.gameObject.name);
 		if( FindHighest() == cso.gameObject){
 			
-			var generated = GenerateHigherStep();
-			
-			var highestScreenPos = cameraTracker.camera.WorldToScreenPoint( cso.transform.position);
-			var screenHeight = cameraTracker.camera.GetScreenHeight();
-			if( screenHeight * 0.7 < highestScreenPos.y){
-				cameraTracker.LerpTarget();
-			}
+			if( cso.gameObject.name.Contains( goalKey)){
+				OnGoal();
+			} else {
+				string key = footstepKey;
+				if( stepCount >= END_STEP_COUNT){
+					key = goalKey;
+				}
+				var generated = GenerateHigherStep(key);
 				
+				var highestScreenPos = cameraTracker.camera.WorldToScreenPoint( cso.transform.position);
+				var screenHeight = cameraTracker.camera.GetScreenHeight();
+				if( screenHeight * 0.7 < highestScreenPos.y){
+					cameraTracker.LerpTarget();
+				}
+			}
 		}
+	}
+	
+	void OnGoal(){
+		if( onGoalAction != null)onGoalAction();
+		onGoalAction = null;
+		Debug.Log("GOAL!");
 	}
 	
 	Vector3 ThinkHigherPostion( Vector3 pos){
@@ -51,6 +76,7 @@ public class StageObjectGenerator : MonoBehaviour, IObjserver {
 	GameObject FindHighest(){
 		GameObject highest = null;
 		foreach( var o in stageObjects){
+			if( !o.active) continue;
 			if( highest == null) highest = o;
 			else if( highest.transform.position.y < o.transform.position.y){
 				highest = o;
@@ -60,10 +86,12 @@ public class StageObjectGenerator : MonoBehaviour, IObjserver {
 		return highest;
 	}
 	
-	GameObject Generate( Vector3 pos){
-		if( objectPrefabs.Count == 0)return null;
-		GameObject go = Instantiate( objectPrefabs[0], pos, Quaternion.identity) as GameObject;
+	GameObject Generate( string key, Vector3 pos){
+		var prefab = objectPrefabs.Where( p => p.name.Equals(key)).FirstOrDefault();
+		if( prefab==null)return null;
+		GameObject go = Instantiate( prefab, pos, Quaternion.identity) as GameObject;
 		Entry( go);
+		go.name = prefab.name;
 		return go;
 	}
 	
@@ -71,4 +99,13 @@ public class StageObjectGenerator : MonoBehaviour, IObjserver {
 		stageObjects.Add( go);
 		go.GetComponent<CoStageObject>().SetObserver( this);		
 	}
+	[System.SerializableAttribute]
+	public class Prefab{
+		public string Name{
+			get{return this.body.name;}
+		}
+		public GameObject body;
+	}
+	
 }
+

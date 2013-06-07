@@ -39,7 +39,7 @@ public class StageObject : MonoBehaviour {
 		onCollisionStay(info);
 	}
 	protected virtual void onCollisionStay( Collision info){
-		Debug.Log( "onCollisionStay "+info.gameObject.name);
+		//Debug.Log( "onCollisionStay "+info.gameObject.name);
 	}
 	void OnCollisionExit( Collision info){
 		onCollisionExit(info);
