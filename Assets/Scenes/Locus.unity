@@ -157,7 +157,7 @@ MonoBehaviour:
   locus: {fileID: 101134033}
   target: {fileID: 1470628747}
   cam: {fileID: 389052687}
-  powerRegulation: 3
+  powerRegulation: 2.25
 --- !u!114 &101134033
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -170,7 +170,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c09d52845c5c04583b0454016d013316, type: 1}
   m_Name: 
   pointPrefab: {fileID: 100000, guid: cb55032c0cc734ce18142d68c3e40ad3, type: 2}
-  pointCount: 10
+  pointCount: 6
   pointInterval: .150000006
 --- !u!1 &187913349
 GameObject:
@@ -635,7 +635,7 @@ Prefab:
       objectReference: {fileID: 389052687}
     - target: {fileID: 11400000, guid: 00d3e689aa87847f3a21c30939619a42, type: 2}
       propertyPath: powerRegulation
-      value: 3
+      value: 2.25
       objectReference: {fileID: 0}
     - target: {fileID: 11400002, guid: 00d3e689aa87847f3a21c30939619a42, type: 2}
       propertyPath: pointPrefab
@@ -643,7 +643,7 @@ Prefab:
       objectReference: {fileID: 100000, guid: cb55032c0cc734ce18142d68c3e40ad3, type: 2}
     - target: {fileID: 11400002, guid: 00d3e689aa87847f3a21c30939619a42, type: 2}
       propertyPath: pointCount
-      value: 10
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 00d3e689aa87847f3a21c30939619a42, type: 2}
@@ -996,4 +996,4 @@ MonoBehaviour:
   footstepKey: plate
   goalKey: goal_plate
   cameraTracker: {fileID: 389052692}
-  END_STEP_COUNT: 3
+  END_STEP_COUNT: 6

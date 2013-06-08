@@ -4,6 +4,11 @@ using System.Collections;
 public class CoStageObject : StageObject, ISubject {
 	IObjserver observer;
 	
+	protected override void onCollisionStay (Collision info)
+	{
+		base.onCollisionStay (info);
+		info.rigidbody.isKinematic = true;
+	}
 	
 	protected override void onTriggerEnter (Collider other)
 	{

@@ -11,7 +11,7 @@ public class StageObjectGenerator : MonoBehaviour, IObjserver {
 	[SerializeField] string goalKey = "goal_plate";
 	//TODO SEPARATE
 	[SerializeField] CameraTracker cameraTracker;
-	[SerializeField] int END_STEP_COUNT = 3;
+	[SerializeField] int END_STEP_COUNT = 6;
 	int stepCount;
 	
 	
@@ -24,7 +24,13 @@ public class StageObjectGenerator : MonoBehaviour, IObjserver {
 		}
 		stageObjects.Clear();
 		cameraTracker.Move( Vector3.zero.Add( 0, 2.5f, 0));
-		GenerateHigherStep(footstepKey);
+		for( int i=0; i<6; i++){
+			var go = GenerateHigherStep(footstepKey);
+			UnityEngine.Random.seed = (int)Time.realtimeSinceStartup * 1000000+i;
+			int num = UnityEngine.Random.Range(0,10);
+			if( num % 2 != 1)
+				go.GetComponentInChildren<Animation>().Play();
+		}
 	}
 	
 	public GameObject GenerateHigherStep( string prefabKey){
@@ -51,12 +57,13 @@ public class StageObjectGenerator : MonoBehaviour, IObjserver {
 				}
 				var generated = GenerateHigherStep(key);
 				
-				var highestScreenPos = cameraTracker.camera.WorldToScreenPoint( cso.transform.position);
-				var screenHeight = cameraTracker.camera.GetScreenHeight();
-				if( screenHeight * 0.7 < highestScreenPos.y){
-					cameraTracker.LerpTarget();
-				}
+				
 			}
+		}
+		var highestScreenPos = cameraTracker.camera.WorldToScreenPoint( cso.transform.position);
+		var screenHeight = cameraTracker.camera.GetScreenHeight();
+		if( screenHeight * 0.7 < highestScreenPos.y){
+			cameraTracker.LerpTarget();
 		}
 	}
 	
@@ -97,7 +104,7 @@ public class StageObjectGenerator : MonoBehaviour, IObjserver {
 	
 	void Entry( GameObject go){
 		stageObjects.Add( go);
-		go.GetComponent<CoStageObject>().SetObserver( this);		
+		go.GetComponentInChildren<CoStageObject>().SetObserver( this);		
 	}
 	[System.SerializableAttribute]
 	public class Prefab{
