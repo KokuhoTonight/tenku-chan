@@ -4,23 +4,14 @@ using System.Collections;
 public class CoStageObject : StageObject, ISubject {
 	IObjserver observer;
 	
-	protected override void onCollisionStay (Collision info)
-	{
-		base.onCollisionStay (info);
-		info.rigidbody.isKinematic = true;
-	}
-	
-	protected override void onTriggerEnter (Collider other)
-	{
-		base.onTriggerEnter (other);
-		if( other.rigidbody.velocity.y < 0)
-			collider.isTrigger = false;
+	public void Touchable( bool active){
+		collider.isTrigger = !active;
 	}
 	
 	protected override void onCollisionExit (Collision info)
 	{
 		base.onCollisionExit (info);
-		collider.isTrigger = true;
+		Touchable(false);
 	}
 	
 	protected override void onCollisionEnter (Collision info)
@@ -50,5 +41,13 @@ public class CoStageObject : StageObject, ISubject {
 	
 	protected void OnNotify(){
 		this.observer.Notify( this);
+	}
+	protected override bool isKinnematic ()
+	{
+		return true;
+	}
+	protected override bool isTrigger ()
+	{
+		return true;
 	}
 }

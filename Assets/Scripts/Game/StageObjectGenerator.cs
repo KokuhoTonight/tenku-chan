@@ -20,16 +20,16 @@ public class StageObjectGenerator : MonoBehaviour, IObjserver {
 		stepCount = 0;
 		this.onGoalAction = onGoalAction;
 		foreach( var so in stageObjects){
-			so.active = false;
+			so.SetActiveRecursively(false);
 		}
 		stageObjects.Clear();
 		cameraTracker.Move( Vector3.zero.Add( 0, 2.5f, 0));
-		for( int i=0; i<6; i++){
+		for( int i=0; i<END_STEP_COUNT; i++){
 			var go = GenerateHigherStep(footstepKey);
 			UnityEngine.Random.seed = (int)Time.realtimeSinceStartup * 1000000+i;
 			int num = UnityEngine.Random.Range(0,10);
-			if( num % 2 != 1)
-				go.GetComponentInChildren<Animation>().Play();
+//			if( num % 2 != 1)
+//				go.GetComponentInChildren<Animation>().Play();
 		}
 	}
 	
@@ -46,7 +46,7 @@ public class StageObjectGenerator : MonoBehaviour, IObjserver {
 	
 	public void Notify( CoStageObject cso){
 		Debug.Log( "notify "+cso.gameObject.name);
-		if( FindHighest() == cso.gameObject){
+		if( FindHighest().GetComponentInChildren<CoStageObject>().gameObject == cso.gameObject){
 			
 			if( cso.gameObject.name.Contains( goalKey)){
 				OnGoal();
@@ -54,6 +54,7 @@ public class StageObjectGenerator : MonoBehaviour, IObjserver {
 				string key = footstepKey;
 				if( stepCount >= END_STEP_COUNT){
 					key = goalKey;
+					Debug.LogWarning("goalKey");
 				}
 				var generated = GenerateHigherStep(key);
 				

@@ -8,6 +8,7 @@ public class StageObject : MonoBehaviour {
 		rigidbody.constraints = constraint();
 		rigidbody.useGravity = useGravity();
 		collider.isTrigger = isTrigger();
+		rigidbody.isKinematic = isKinnematic();
 	}
 	
 	protected virtual bool isTrigger(){
@@ -15,6 +16,10 @@ public class StageObject : MonoBehaviour {
 	}
 	
 	protected virtual bool useGravity(){
+		return false;
+	}
+	
+	protected virtual bool isKinnematic(){
 		return false;
 	}
 	
@@ -28,6 +33,11 @@ public class StageObject : MonoBehaviour {
 	protected virtual void onTriggerEnter( Collider other){
 		Debug.Log( "onTriggerEnter "+other.gameObject.name);
 	}
+	void OnTriggerStay( Collider other){
+		onTriggerStay(other);
+	}
+	protected virtual void onTriggerStay( Collider other){}
+		
 	
 	void OnCollisionEnter( Collision info){
 		onCollisionEnter(info);
