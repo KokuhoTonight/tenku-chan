@@ -4,7 +4,7 @@ using System.Collections;
 [RequireComponent( typeof(MovementRecorder))]
 public class MovementSection : MonoBehaviour {
 	[SerializeField] bool head;
-	float speed = 0.5f;
+	float speed = 0.1f;
 	MovementParam currentMovementParam;
 	MovementParam pastMovementParam;
 	
@@ -13,6 +13,7 @@ public class MovementSection : MonoBehaviour {
 	[SerializeField] MovementRecorder recorder;
 	[SerializeField]MovementSection childMovementSection;
 		
+	float updatedTime;
 	
 	void Awake(){
 		MovementRecorder recorder = gameObject.GetComponent<MovementRecorder>();
@@ -28,6 +29,7 @@ public class MovementSection : MonoBehaviour {
 				Debug.Log("righti");
 			transform.position = transform.position.Add( speed, 0, 0);
 			}
+			UpdateMovement();
 		}
 		if(Input.GetKeyUp(KeyCode.RightArrow)){
 			RecordStop();
@@ -42,12 +44,24 @@ public class MovementSection : MonoBehaviour {
 				Debug.Log("lefti");
 			transform.position = transform.position.Add( -speed, 0, 0);
 			}
+			UpdateMovement();
 		}
 		if(Input.GetKeyUp(KeyCode.LeftArrow)){
 			RecordStop();
 		}
 	}
 	
+	void UpdateMovement()
+	{
+		float current = Time.realtimeSinceStartup;
+		if( updatedTime == 0 ||
+			(updatedTime + updateInterval) < Time.realtimeSinceStartup)
+		{
+			RecordStop();
+			RecordStart(0);
+			updatedTime = current;
+		}
+	}
 	
 	public void Play( MovementParam movementParam){
 		StopCoroutine( "CR_Move");
