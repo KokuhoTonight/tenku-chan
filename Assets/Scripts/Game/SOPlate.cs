@@ -3,13 +3,17 @@ using System.Collections;
 
 public class SOPlate : CoStageObject {
 
-	// Use this for initialization
-	void Start () {
-	
+	protected override bool isTrigger ()
+	{
+		return false;
 	}
 	
-	// Update is called once per frame
-	void Update () {
-	
+	protected override void onCollisionEnter (Collision info)
+	{
+		//base.onCollisionEnter (info);
+	}
+	protected override void onCollisionExit (Collision info)
+	{
+		//base.onCollisionExit (info);
 	}
 }

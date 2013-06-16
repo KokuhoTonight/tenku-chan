@@ -31,6 +31,14 @@ public class StageObjectGenerator : MonoBehaviour, IObjserver {
 //			if( num % 2 != 1)
 //				go.GetComponentInChildren<Animation>().Play();
 		}
+		
+		for( int i=0; i<END_STEP_COUNT; i++){
+			var go = GenerateLowerStep(footstepKey);
+			UnityEngine.Random.seed = (int)Time.realtimeSinceStartup * 1000000+i;
+			int num = UnityEngine.Random.Range(0,10);
+//			if( num % 2 != 1)
+//				go.GetComponentInChildren<Animation>().Play();
+		}
 	}
 	
 	public GameObject GenerateHigherStep( string prefabKey){
@@ -40,6 +48,17 @@ public class StageObjectGenerator : MonoBehaviour, IObjserver {
 		else{
 			var highest = FindHighest();
 			var newPos = ThinkHigherPostion( highest.transform.position);
+			return Generate( prefabKey, newPos);
+		}
+	}
+	
+	public GameObject GenerateLowerStep( string prefabKey){
+		stepCount++;
+		if( stageObjects.Count == 0)
+			return Generate( prefabKey, Vector3.zero);
+		else{
+			var lowest = FindLowest();
+			var newPos = ThinkLowerPosition( lowest.transform.position);
 			return Generate( prefabKey, newPos);
 		}
 	}
@@ -61,9 +80,9 @@ public class StageObjectGenerator : MonoBehaviour, IObjserver {
 				
 			}
 		}
-		var highestScreenPos = cameraTracker.camera.WorldToScreenPoint( cso.transform.position);
+		var cameraScreenPos = cameraTracker.camera.WorldToScreenPoint( cso.transform.position);
 		var screenHeight = cameraTracker.camera.GetScreenHeight();
-		if( screenHeight * 0.7 < highestScreenPos.y){
+		if( screenHeight * 0.7 < cameraScreenPos.y || screenHeight * 0.3 < cameraScreenPos.y){
 			cameraTracker.LerpTarget();
 		}
 	}
@@ -80,6 +99,11 @@ public class StageObjectGenerator : MonoBehaviour, IObjserver {
 				//.Add( 0, UnityEngine.Random.Range(0.5f, 3f), 0);
 				.Add(0, 2.5f, 0);
 	}
+	Vector3 ThinkLowerPosition( Vector3 pos){
+		return pos.SetX( UnityEngine.Random.Range( -2.2f, 2.2f))
+			.Add(0, -2.5f, 0);
+	}
+
 	
 	GameObject FindHighest(){
 		GameObject highest = null;
@@ -92,6 +116,18 @@ public class StageObjectGenerator : MonoBehaviour, IObjserver {
 		}
 		
 		return highest;
+	}
+	GameObject FindLowest(){
+		GameObject lowest = null;
+		foreach( var o in stageObjects){
+			if( !o.active) continue;
+			if( lowest == null) lowest = o;
+			else if( lowest.transform.position.y > o.transform.position.y){
+				lowest = o;
+			}
+		}
+		
+		return lowest;
 	}
 	
 	GameObject Generate( string key, Vector3 pos){

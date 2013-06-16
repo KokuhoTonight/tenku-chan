@@ -4,7 +4,7 @@ using System.Collections;
 [RequireComponent( typeof(MovementRecorder))]
 public class MovementSection : MonoBehaviour {
 	[SerializeField] bool head;
-	float speed = 0.1f;
+	float speed = 0.2f;
 	MovementParam currentMovementParam;
 	MovementParam pastMovementParam;
 	
