@@ -29,7 +29,10 @@ public class FootstepGenerator : MonoBehaviour, IObjserver {
 		
 		for( int i=0; i<END_STEP_COUNT; i++)
 		{
-			Generate( -i*1f, new Gauge( UnityEngine.Random.Range(0f, 1f), UnityEngine.Random.Range(0f, 1f)));
+			GenerateCut( -i*1f, 
+				new Gauge( UnityEngine.Random.Range(0f, 1f), UnityEngine.Random.Range(0f, 1f)),
+				new Gauge( UnityEngine.Random.Range(0f, 1f), UnityEngine.Random.Range(0f, 1f))
+				);
 		}
 			
 	}
@@ -85,6 +88,7 @@ public class FootstepGenerator : MonoBehaviour, IObjserver {
 		float ratio = 1f / Display.World.width;
 		
 		foreach( Gauge g in gauges){
+			//g.Ensure( 0.5f * ratio);
 			var width = g.end - g.start;
 			Generate( footstep,
 				new Vector2( width/ratio, 0.5f),
@@ -92,6 +96,32 @@ public class FootstepGenerator : MonoBehaviour, IObjserver {
 			);
 		}
 			
+	}
+	
+	public void GenerateCut( float height, params Gauge[] gauges)
+	{
+		float ratio = 1f / Display.World.width;
+		
+		var baseGauges = new Gauge[]{ new Gauge(0,1)};
+		List<Gauge> nextList = new List<Gauge>();
+		
+		foreach( Gauge g in gauges){
+			g.Ensure( 0.5f * ratio);
+			foreach( var gg in baseGauges){
+				var rs = gg - g;
+				foreach( var r in rs){
+					Debug.Log(r.ToString());
+					nextList.Add(r);
+				}
+			}
+			baseGauges = nextList.ToArray();
+			nextList.Clear();
+		}
+		
+		foreach( var g in baseGauges){
+			
+		}
+		Generate( height, baseGauges);
 	}
 }
 
@@ -101,14 +131,62 @@ public class Gauge{
 		this.end = end;
 		Swap();
 	}
+	public void Ensure( float length){
+		if (this.length > length) return;
+		float rest = length - this.length;
+		
+		if( rest < (1-end) ){
+			end += rest;
+		} else {
+			start -= ( rest - (1-end) );
+			end = 1;
+		}
+		
+	}
 	void Swap(){
 		if( start < end) return;
 		var b = start;
 		start = end;
 		end = b;
 	}
+	float length{
+		get { return end - start;}
+	}
 	public float start;
 	public float end;
+	
+	public override string ToString ()
+	{
+		return string.Format ("[Gauge: {0},{1}]", start, end);
+	}
+	
+	public static Gauge[] operator- (Gauge g1, Gauge g2){
+		if( g1.end < g2.start || g2.end < g1.start)return new Gauge[]{g1};
+		
+		if( g1.start > g2.start && g1.end < g2.end){
+			return new Gauge[]{};
+		} else if( g1.start < g2.start ){
+			if( g1.end > g2.end){
+				return new Gauge[]{
+					new Gauge(g1.start, g2.start),
+					new Gauge(g2.end, g1.end)
+				};	
+			} else {
+				return new Gauge[]{
+					new Gauge(g1.start, g2.start)
+				};
+			}
+		} else {
+			if( g1.end > g2.end){
+				return new Gauge[]{
+					new Gauge(g2.end, g1.end)
+				};
+			} else {
+				return new Gauge[]{};
+			}
+		}
+		
+	}
 }
 
 public enum Anchor{

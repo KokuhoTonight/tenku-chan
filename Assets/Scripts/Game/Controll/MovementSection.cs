@@ -4,7 +4,7 @@ using System.Collections;
 [RequireComponent( typeof(MovementRecorder))]
 public class MovementSection : MonoBehaviour {
 	[SerializeField] bool head;
-	float speed = 0.2f;
+	[SerializeField] float speed = 0.12f;
 	MovementParam currentMovementParam;
 	MovementParam pastMovementParam;
 	
@@ -22,8 +22,7 @@ public class MovementSection : MonoBehaviour {
 		}
 		if(Input.GetKey(KeyCode.RightArrow)){
 			if( head){
-				Debug.Log("righti");
-			transform.position = transform.position.Add( speed, 0, 0);
+				transform.position = transform.position.Add( speed, 0, 0);
 			}
 		}
 		if(Input.GetKeyUp(KeyCode.RightArrow)){
@@ -36,8 +35,7 @@ public class MovementSection : MonoBehaviour {
 		}
 		if(Input.GetKey(KeyCode.LeftArrow)){
 			if( head){
-				Debug.Log("lefti");
-			transform.position = transform.position.Add( -speed, 0, 0);
+				transform.position = transform.position.Add( -speed, 0, 0);
 			}
 		}
 		if(Input.GetKeyUp(KeyCode.LeftArrow)){

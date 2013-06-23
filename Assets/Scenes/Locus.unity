@@ -616,6 +616,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b811121c22aab49f3b3e68c8e622032d, type: 1}
   m_Name: 
   head: 1
+  speed: .119999997
   updateInterval: .0500000007
 --- !u!114 &492812046
 MonoBehaviour:
@@ -1599,4 +1600,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 760373841ef6346299dfc46c3bcf2e68, type: 1}
   m_Name: 
   footstep: {fileID: 100000, guid: f5b94299b00ad4b57af53b7ccac1540f, type: 2}
-  END_STEP_COUNT: 20
+  END_STEP_COUNT: 100
