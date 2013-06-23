@@ -18,15 +18,12 @@ public class DistanceKeeper : MonoBehaviour {
 				);
 		
 		if( keepDistance >= distance) return;
-		float z = transform.position.z;
 		Vector2 xy = Vector2.Lerp(
 			transform.position.ToVector2(),
 			target.position.ToVector2(),
 			1 - keepDistance / distance
 			);
-		transform.position = new Vector3( xy.x, xy.y, z);
-		Debug.Log( "difffff "+ distance + " keepdistance "+ keepDistance);
-		
+		transform.position = new Vector3( xy.x, xy.y, transform.position.z);
 	}
 	/*
 	IEnumerator CR_Move( MovementParam movementParam){

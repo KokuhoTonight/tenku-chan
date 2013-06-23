@@ -3,7 +3,7 @@ using System.Collections;
 
 public class GameController : MonoBehaviour {
 	
-	[SerializeField] StageObjectGenerator stageObjectGenerater;
+	[SerializeField] FootstepGenerator footstepGenerater;
 	[SerializeField] PlayerCharacter player;
 	[SerializeField] Camera camera;
 	
@@ -12,11 +12,15 @@ public class GameController : MonoBehaviour {
 	bool isHidingText;
 	void Awake(){
 		isHidingText = false;
+		
+	}
+	
+	void Start(){
 		Initialize();
 	}
 	
 	void Initialize(){
-		stageObjectGenerater.Initialize( OnGoal);
+		footstepGenerater.Initialize( OnGoal);
 		player.Initialize();
 		
 		text.text = "START!";
