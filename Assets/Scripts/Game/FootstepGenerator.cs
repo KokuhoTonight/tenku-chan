@@ -25,16 +25,21 @@ public class FootstepGenerator : MonoBehaviour, IObjserver {
 		foreach( var so in footSteps){
 			so.SetActiveRecursively(false);
 		}
+		for( int j=0; j<footSteps.Count; j++){
+			Destroy( footSteps[j]);
+		}
 		footSteps.Clear();
 		
-		for( int i=0; i<END_STEP_COUNT; i++)
+		int i=0;
+		for( ; i<END_STEP_COUNT; i++)
 		{
 			GenerateCut( -i*1f, 
 				new Gauge( UnityEngine.Random.Range(0f, 1f), UnityEngine.Random.Range(0f, 1f)),
 				new Gauge( UnityEngine.Random.Range(0f, 1f), UnityEngine.Random.Range(0f, 1f))
 				);
 		}
-			
+		var goal = Generate( footstep, new Vector2(20, 1f), new Vector2(0, -(i+1)*1));
+		goal.name = "goal";
 	}
 	
 	public void Notify( CoStageObject cso){
@@ -110,7 +115,7 @@ public class FootstepGenerator : MonoBehaviour, IObjserver {
 			foreach( var gg in baseGauges){
 				var rs = gg - g;
 				foreach( var r in rs){
-					Debug.Log(r.ToString());
+					
 					nextList.Add(r);
 				}
 			}

@@ -10,7 +10,7 @@ public class SOPlate : CoStageObject {
 	
 	protected override void onCollisionEnter (Collision info)
 	{
-		//base.onCollisionEnter (info);
+		base.onCollisionEnter (info);
 	}
 	protected override void onCollisionExit (Collision info)
 	{

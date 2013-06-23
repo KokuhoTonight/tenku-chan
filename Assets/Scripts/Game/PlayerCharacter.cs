@@ -6,7 +6,7 @@ public class PlayerCharacter : MonoBehaviour {
 	
 	
 	public void Initialize(){
-		transform.position = new Vector3( 0, -0.6f, 0);
+		transform.position = new Vector3( 0, 2.6f, 0);
 	}
 	
 }

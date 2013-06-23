@@ -19,16 +19,16 @@ public class CoStageObject : StageObject, ISubject {
 		base.onCollisionEnter (info);
 		if( !IsPlayerCharacter(info.gameObject)) return;
 		//reset player rigidbody
-		info.rigidbody.angularVelocity = Vector3.zero;
-		info.rigidbody.velocity = Vector3.zero;
+		//info.rigidbody.angularVelocity = Vector3.zero;
+		//info.rigidbody.velocity = Vector3.zero;
 		
-		Debug.Log("GetOn!");
+		//Debug.Log("GetOn!");
 		OnNotify();
 		
 	}
 	
 	bool IsPlayerCharacter( GameObject go){
-		return go.GetComponent<PlayerCharacter>() != null;
+		return go.GetComponent<MovementSection>() != null;
 	}
 	
 	protected virtual void getOnWillStart(){

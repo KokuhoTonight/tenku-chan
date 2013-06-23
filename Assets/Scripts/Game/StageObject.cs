@@ -31,7 +31,7 @@ public class StageObject : MonoBehaviour {
 		onTriggerEnter(other);
 	}
 	protected virtual void onTriggerEnter( Collider other){
-		Debug.Log( "onTriggerEnter "+other.gameObject.name);
+		//Debug.Log( "onTriggerEnter "+other.gameObject.name);
 	}
 	void OnTriggerStay( Collider other){
 		onTriggerStay(other);

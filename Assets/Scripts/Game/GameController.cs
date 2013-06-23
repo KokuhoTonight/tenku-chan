@@ -5,10 +5,11 @@ public class GameController : MonoBehaviour {
 	
 	[SerializeField] FootstepGenerator footstepGenerater;
 	[SerializeField] PlayerCharacter player;
+	[SerializeField] TopNeedle topNeedle;
 	[SerializeField] Camera camera;
 	
 	[SerializeField] GUIText text;
-	
+	bool isGoalable;
 	bool isHidingText;
 	void Awake(){
 		isHidingText = false;
@@ -20,7 +21,9 @@ public class GameController : MonoBehaviour {
 	}
 	
 	void Initialize(){
+		isGoalable = true;
 		footstepGenerater.Initialize( OnGoal);
+		topNeedle.Initialize(OnGameover);
 		player.Initialize();
 		
 		text.text = "START!";
@@ -38,25 +41,28 @@ public class GameController : MonoBehaviour {
 	
 	void Update(){
 		
-		if( OutOfScreenDown(player.gameObject))
-			Initialize();
-		
 		if( Input.GetKeyDown(KeyCode.R)){
 			Initialize();
 		}
 	}
 	
-	
+	void OnGameover(){
+		isGoalable = false;
+		text.text = "GAME OVER!!!!";
+		StartCoroutine(CR_Restart());
+	}
 	void OnGoal(){
+		if( !isGoalable)return;
+		topNeedle.Stop();
 		text.text = "GOOOOOOOOOOOOOOOAL!";
 		StartCoroutine(CR_Restart());
 	}
 	IEnumerator CR_Restart(){
-		yield return new WaitForSeconds(3);
+		yield return new WaitForSeconds(1);
 		
 		for( int i=3; i>0; i--){
 			text.text = i.ToString();
-			yield return new WaitForSeconds(1);
+			yield return new WaitForSeconds(.7f);
 		}
 		
 		Initialize();
