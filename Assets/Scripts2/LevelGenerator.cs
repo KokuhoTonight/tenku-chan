@@ -39,8 +39,9 @@ public class LevelGenerator : MonoBehaviour {
 	void GenerateFriend(GameObject newFloor)
 	{
 		GameObject newFriend = Instantiate(friendPrefab) as GameObject;
-		PackedSprite sprite = newFriend.GetComponent<PackedSprite>();
+		PackedSprite sprite = newFriend.transform.GetComponentInChildren<PackedSprite>();
 		newFriend.transform.localPosition = new Vector3(newFloor.transform.localPosition.x, newFloor.transform.localPosition.y + 0.78f, 0);
+		//sprite.SetColor(new Color(Random.Range(0.5f, 1.0f),Random.Range(0.5f, 1.0f),Random.Range(0.5f, 1.0f),1));
 		sprite.PlayAnim(0,Random.Range(0,169));
 		friendList.Add(newFriend);
 	}

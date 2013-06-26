@@ -27,7 +27,7 @@ public class Enemy : MonoBehaviour {
 		if(collision.gameObject.tag == "Player")
 		{
 			Time.timeScale = 1f;
-			Application.LoadLevel("test");
+			Application.LoadLevel(0);
 		}
 	}
 	
@@ -36,7 +36,7 @@ public class Enemy : MonoBehaviour {
 		if(collision.gameObject.tag == "Player")
 		{
 			Time.timeScale = 1f;
-			Application.LoadLevel("test");
+			Application.LoadLevel(0);
 		}
 	}
 }

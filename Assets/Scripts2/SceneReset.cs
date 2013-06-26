@@ -13,7 +13,7 @@ public class SceneReset : MonoBehaviour {
 		if(GUI.Button(new Rect(Screen.width/2 + 100, Screen.height/2 - 350, 100, 40), "Reset"))
 		{
 			Time.timeScale = 1f;
-			Application.LoadLevel("test");
+			Application.LoadLevel(0);
 		}
 	}
 	

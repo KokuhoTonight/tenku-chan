@@ -72,15 +72,15 @@ MonoBehaviour:
   persistent: 0
   plane: 0
   winding: 1
-  width: 1.5
-  height: 1.5
+  width: 1.29999995
+  height: 1.29999995
   bleedCompensation: {x: 0, y: 0}
   anchor: 9
   pixelPerfect: 0
   autoResize: 0
   billboarded: 0
   offset: {x: 0, y: 0, z: 0}
-  color: {r: 1, g: 0, b: 0, a: 1}
+  color: {r: 1, g: 1, b: 1, a: 1}
   renderCamera: {fileID: 0}
   pixelsPerUV: {x: 512, y: 1024}
   hideAtStart: 0
@@ -1817,6 +1817,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ff766e2f3de424edaa87ed6c6d53bd08, type: 1}
   m_Name: 
+  particlePrefab: {fileID: 100000, guid: 0b8faae096f11224c94a75103f80f177, type: 2}
 --- !u!135 &13500000
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -1827,7 +1828,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: .400000006
+  m_Radius: .600000024
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &100100000
 Prefab:

@@ -7,7 +7,8 @@ public class TouchController: MonoBehaviour {
 	public PlayerController controller;
 	public float fource = 50f;
 	public float acceleration = 50f;
-	public float velocityLimit = 50f;
+	public float velocityLimitY = 50f;
+	public float velocityLimitX = 50f;
 	
 	public bool isActiveFource = true;
 	
@@ -33,7 +34,7 @@ public class TouchController: MonoBehaviour {
 				player.rigidbody.AddForce(Vector3.left * acceleration, ForceMode.Acceleration);
 			}
 			
-			VelocityLimit();;
+			//VelocityLimit();;
 		}
 	}
 	
@@ -55,7 +56,6 @@ public class TouchController: MonoBehaviour {
 				player.rigidbody.AddForce(Vector3.left * fource, ForceMode.Acceleration);
 			}
 			
-			VelocityLimit();
 			//Vector3 playerPos = player.transform.localPosition;
 			//player.transform.localPosition = Vector3.Slerp(playerPos, new Vector3(pos.x, playerPos.y, playerPos.z), fource);
 		}
@@ -66,14 +66,22 @@ public class TouchController: MonoBehaviour {
 		Vector3 velocity = player.rigidbody.velocity;
 		if(velocity.y > 0)
 			player.rigidbody.velocity = new Vector3(velocity.x, 0, 0);
-		if(velocity.x < -velocityLimit)
+		if(velocity.y < -velocityLimitY)
+			player.rigidbody.velocity = new Vector3(velocity.x, -velocityLimitY, 0);
+		
+		if(velocity.x < -velocityLimitX)
 		{
-			player.rigidbody.velocity = new Vector3 (-velocityLimit, velocity.y, 0);
+			player.rigidbody.velocity = new Vector3 (-velocityLimitX, velocity.y, 0);
 		}
-		else if(velocity.x > velocityLimit)
+		else if(velocity.x > velocityLimitX)
 		{
-			player.rigidbody.velocity = new Vector3(velocityLimit, velocity.y, 0);
+			player.rigidbody.velocity = new Vector3(velocityLimitX, velocity.y, 0);
 		}
+	}
+	
+	void OnGUI()
+	{
+		GUI.Label(new Rect(0,0, 300, 40), player.rigidbody.velocity.x + "\n" + player.rigidbody.velocity.y);
 	}
 	
 	void Update()
@@ -83,7 +91,15 @@ public class TouchController: MonoBehaviour {
 #if UNITY_IPHONE
 			CheckTouch();
 #endif
+#if UNITY_EDITOR
 			CheckClick();
+#endif			
+			//VelocityLimit();
 		}
+	}
+	
+	void LateUpdate()
+	{
+		VelocityLimit();
 	}
 }
